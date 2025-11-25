@@ -1,7 +1,11 @@
-import type { User } from "@supabase/supabase-js";
+export interface AuthUser {
+  id: string;
+  email?: string;
+  role: string;
+}
 
 export interface AuthState {
-  user: User | null;
+  user: AuthUser  | null;
   session: any | null;
   loading: boolean;
   error: string | null;

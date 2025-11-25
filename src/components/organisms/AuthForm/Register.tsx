@@ -12,6 +12,7 @@ export default function RegisterForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+  const [role, setRole] = useState("applicant");
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,7 +22,7 @@ export default function RegisterForm() {
       return;
     }
 
-    dispatch(registerUser({ email, password }));
+    dispatch(registerUser({ email, password, role  }));
   };
 
   return (
@@ -48,6 +49,19 @@ export default function RegisterForm() {
         placeholder="ulangi password..."
         onChange={(e) => setConfirm(e.target.value)}
       />
+
+      <div className="mt-3">
+        <label className="block mb-1">Role</label>
+        <select
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+          className="border px-3 py-2 rounded w-full"
+        >
+          <option value="applicant">Applicant</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+
 
       <Button type="submit" disabled={loading}>
         {loading ? "Loading..." : "Register"}
