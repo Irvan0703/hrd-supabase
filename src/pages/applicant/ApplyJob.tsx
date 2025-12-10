@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { applyJob } from "../../features/apply/thunks";
 import type { AppDispatch, RootState } from "../../app/store";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation  } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 
 export default function ApplyJobPage() {
@@ -20,6 +20,14 @@ export default function ApplyJobPage() {
     phone: "",
     linkedin: "",
   });
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.capturedFile) {
+      setPhotoFile(location.state.capturedFile);
+    }
+  }, [location]);
 
   const [photoFile, setPhotoFile] = useState<File | null>(null);
 
@@ -68,12 +76,13 @@ export default function ApplyJobPage() {
               className="px-4 py-2 bg-white border rounded-lg text-sm cursor-pointer"
             >
               📸 Take a Picture
-              <input
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={(e) => setPhotoFile(e.target.files?.[0] || null)}
-              />
+              <button
+                className="px-4 py-2 bg-white border rounded-lg text-sm"
+                onClick={() => navigate(`/jobs/${jobId}/capture`)}
+              >
+                📸 Open Camera
+              </button>
+
             </label>
           </div>
         </div>
